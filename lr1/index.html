@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №1 - Сончак Ярослав</title>
+</head>
+<body>
+    <h1>Лабораторна робота №1</h1>
+    
+    <h2>Завдання 1 (Рівень 4-6)</h2>
+    <p id="task1-output"></p>
+
+    <h2>Завдання 2 (Рівень 4-6)</h2>
+    <button id="btn-task2">Виконати завдання 2</button>
+    <p id="task2-output"></p>
+
+    <h2>Завдання 3 (Рівень 4-6)</h2>
+    <div id="task3-output"></div>
+
+    <h2>Завдання 1 (Рівень 7-9)</h2>
+    <div id="task4-output"></div>
+
+    <h2>Завдання 2 (Рівень 7-9)</h2>
+    <div id="task5-output"></div>
+
+    <h2>Завдання 3 (Рівень 7-9)</h2>
+    <button id="btn-task3-advanced">Розрахувати середній бал</button>
+    <div id="task3-advanced-container"></div>
+
+    <h2>Завдання 4 (Рівень 7-9)</h2>
+    <button id="btn-task4-students">Ввести дані студентів</button>
+    <div id="task4-students-list"></div>
+
+    <script type="module">
+        alert('Натисніть кнопку ОК для продовження');
+        const output1 = document.getElementById('task1-output');
+        output1.textContent = 'Hello, Сончак Ярослав!';
+
+        const btn2 = document.getElementById('btn-task2');
+        const output2 = document.getElementById('task2-output');
+
+        btn2.addEventListener('click', () => {
+            const isConfirmed = confirm('Оберіть одну з кнопок: OK чи Відміна');
+
+            if (isConfirmed) {
+                output2.textContent = 'Було натиснуто кнопку: OK';
+            } else {
+                output2.textContent = 'Було натиснуто кнопку: Відміна';
+            }
+        });
+
+        const output3 = document.getElementById('task3-output');
+        const number = 4;
+
+        for (let i = 1; i <= 10; i++) {
+            const p = document.createElement('p');
+            p.textContent = `${number} * ${i} = ${number * i}`;
+            output3.appendChild(p);
+        }
+
+        const myNumber = 14;
+        const output4 = document.getElementById('task4-output');
+
+        function checkEvenOdd(num) {
+            const p = document.createElement('p');
+
+            if (num % 2 === 0) {
+                p.textContent = `Число ${num} є парним`;
+                p.style.color = 'green';
+            } else {
+                p.textContent = `Число ${num} є непарним`;
+                p.style.color = 'red';
+            }
+
+            output4.appendChild(p);
+        }
+
+        checkEvenOdd(myNumber);
+
+        const output5 = document.getElementById('task5-output');
+
+        function createPassword(name, number) {
+            const firstThreeLetters = name[0] + name[1] + name[2];
+            const multipliedNumber = number * 2;
+            return `${firstThreeLetters}${multipliedNumber}`;
+        }
+
+        const myPassword = createPassword('Ярослав', 14);
+        output5.textContent = `Ваш пароль: ${myPassword}`;
+
+        const btnTask3 = document.getElementById('btn-task3-advanced');
+        const container = document.getElementById('task3-advanced-container');
+
+        function calculateAverage(g1, g2, g3) {
+            return (g1 + g2 + g3) / 3;
+        }
+
+        btnTask3.addEventListener('click', () => {
+            const grade1 = Number(prompt('Введіть першу оцінку:'));
+            const grade2 = Number(prompt('Введіть другу оцінку:'));
+            const grade3 = Number(prompt('Введіть третю оцінку:'));
+
+            const avg = calculateAverage(grade1, grade2, grade3);
+
+            const dynamicDiv = document.createElement('div');
+            dynamicDiv.id = '14';
+            dynamicDiv.textContent = `Середній бал: ${avg.toFixed(2)} (елемент створено з id="14")`;
+
+            container.innerHTML = '';
+            container.appendChild(dynamicDiv);
+        });
+
+        const btnStudents = document.getElementById('btn-task4-students');
+        const studentsContainer = document.getElementById('task4-students-list');
+
+        btnStudents.addEventListener('click', () => {
+            studentsContainer.innerHTML = '';
+            const count = Number(prompt('Введіть кількість студентів:'));
+
+            for (let i = 1; i <= count; i++) {
+                const studentName = prompt(`Введіть прізвище та ім'я студента №${i}:`);
+                if (studentName) {
+                    const p = document.createElement('p');
+                    p.textContent = `${i}. ${studentName}`;
+                    studentsContainer.appendChild(p);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
