@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №2 - Сончак Ярослав</title>
+</head>
+<body>
+    <h1>Лабораторна робота №2</h1>
+
+    <h2>Завдання 1 (Рівень 4-6)</h2>
+    <button id="btn-task1">Виконати завдання 1</button>
+
+    <h2>Завдання 2 (Рівень 4-6)</h2>
+    <button id="btn-task2">Виконати завдання 2</button>
+
+    <h2>Завдання 3 (Рівень 4-6)</h2>
+    <button id="btn-task3">Виконати завдання 3</button>
+    <p id="task3-output"></p>
+
+    <h2>Завдання 1 (Рівень 7-9)</h2>
+    <button id="btn-task1-advanced">Виконати завдання 1</button>
+    <div id="task1-advanced-output"></div>
+
+    <h2>Завдання 2 (Рівень 7-9)</h2>
+    <button id="btn-task2-advanced">Виконати завдання 2</button>
+
+    <h2>Завдання 3 (Рівень 7-9)</h2>
+    <button id="btn-task3-advanced">Виконати завдання 3</button>
+
+    <script type="module">
+        const btn1 = document.getElementById('btn-task1');
+
+        btn1.addEventListener('click', () => {
+            let userName = prompt('Введіть ваше ім\'я:');
+            alert(`Hello, ${userName}! Welcome to JavaScript`);
+        });
+
+        const btn2 = document.getElementById('btn-task2');
+
+        btn2.addEventListener('click', () => {
+            const currentYear = new Date().getFullYear();
+            let age = +prompt('Введіть ваш вік:');
+            let birthYear = currentYear - age;
+
+            alert(`You were born in ${birthYear}`);
+        });
+
+        const btn3 = document.getElementById('btn-task3');
+        const output3 = document.getElementById('task3-output');
+
+        btn3.addEventListener('click', () => {
+            let firstName = prompt('Введіть ім\'я:');
+            let lastName = prompt('Введіть прізвище:');
+
+            console.log('Your full name is ' + firstName + ' ' + lastName);
+            console.log(`Your full name is ${firstName} ${lastName}`);
+
+            output3.textContent = `Виведено в консоль: Your full name is ${firstName} ${lastName}`;
+        });
+
+        const btnTask1Adv = document.getElementById('btn-task1-advanced');
+        const outputTask1Adv = document.getElementById('task1-advanced-output');
+
+        btnTask1Adv.addEventListener('click', () => {
+            let userName = 'Ярослав';
+            let innerUserName = '';
+
+            if (true) {
+                let userName = prompt('Введіть інше ім\'я для блоку if:');
+                innerUserName = userName;
+                console.log('Inside if block:', userName);
+            }
+
+            console.log('Outside if block:', userName);
+
+            outputTask1Adv.innerHTML = `
+                <p>Inside if block: ${innerUserName}</p>
+                <p>Outside if block: ${userName}</p>
+                <p>Пояснення: змінна let має блочну область видимості, тому значення всередині if не змінює зовнішню змінну.</p>
+            `;
+        });
+
+        const btnTask2Adv = document.getElementById('btn-task2-advanced');
+
+        btnTask2Adv.addEventListener('click', () => {
+            let name = prompt('Введіть ваше ім\'я:');
+            let age = +prompt('Введіть ваш вік:');
+
+            let isConfirmed = confirm(`Hello, ${name}! Your age is ${age}. Continue?`);
+
+            if (isConfirmed) {
+                alert('Welcome!');
+            } else {
+                alert('Goodbye!');
+            }
+        });
+
+        const btnTask3Adv = document.getElementById('btn-task3-advanced');
+
+        btnTask3Adv.addEventListener('click', () => {
+            let number = +prompt('Введіть число:');
+
+            if (number % 2 === 0) {
+                alert('Number is even');
+            } else {
+                alert('Number is odd');
+            }
+        });
+    </script>
+</body>
+</html>
