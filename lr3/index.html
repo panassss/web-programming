@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №3 - Сончак Ярослав</title>
+</head>
+<body>
+    <h1>Лабораторна робота №3</h1>
+
+    <h2>Завдання 1 (Рівень 4-6)</h2>
+    <button id="btn-task1">Виконати завдання 1</button>
+
+    <h2>Завдання 2 (Рівень 4-6)</h2>
+    <button id="btn-task2">Виконати завдання 2</button>
+
+    <h2>Завдання 3 (Рівень 4-6)</h2>
+    <button id="btn-task3">Виконати завдання 3</button>
+
+    <h2>Завдання 1 (Рівень 7-9)</h2>
+    <button id="btn-task1-lvl2">Виконати завдання 1</button>
+
+    <h2>Завдання 2 (Рівень 7-9)</h2>
+    <button id="btn-task2-lvl2">Виконати завдання 2</button>
+
+    <h2>Завдання 3 (Рівень 7-9)</h2>
+    <button id="btn-task3-lvl2">Клікнути лічильник</button>
+    <p id="counter-output">Лічильник ще не запускався</p>
+
+    <script type="module">
+        function getFullName(firstName, lastName) {
+            return `${firstName} ${lastName}`;
+        }
+
+        function showGreeting(fullName, age) {
+            alert(`Hello, ${fullName}! You are ${age} years old.`);
+        }
+
+        const btn1 = document.getElementById('btn-task1');
+        btn1.addEventListener('click', () => {
+            const firstName = prompt("Введіть ваше ім'я:");
+            const lastName = prompt("Введіть ваше прізвище:");
+            const age = +prompt("Введіть ваш вік:");
+
+            const fullName = getFullName(firstName, lastName);
+            showGreeting(fullName, age);
+        });
+
+        function getStudentInfo() {
+            const name = prompt("Введіть ім'я студента:");
+            const score = +prompt("Введіть бал студента (0-12):");
+            return { name, score };
+        }
+
+        function checkGrade(score) {
+            if (score >= 10 && score <= 12) {
+                return "Excellent";
+            } else if (score >= 7 && score <= 9) {
+                return "Good";
+            } else if (score >= 4 && score <= 6) {
+                return "Satisfactory";
+            } else {
+                return "Fail";
+            }
+        }
+
+        function showResultTask2(name, grade) {
+            alert(`Student: ${name}\nGrade: ${grade}`);
+        }
+
+        const btn2 = document.getElementById('btn-task2');
+        btn2.addEventListener('click', () => {
+            const student = getStudentInfo();
+            const grade = checkGrade(student.score);
+            showResultTask2(student.name, grade);
+        });
+
+        function calculateTip(amount, percent = 10) {
+            return (amount * percent) / 100;
+        }
+
+        function showResult(amount, tip) {
+            const total = amount + tip;
+            alert(`Bill: ${amount} грн\nTip (10%): ${tip} грн\nTotal: ${total} грн`);
+        }
+
+        const btn3 = document.getElementById('btn-task3');
+        btn3.addEventListener('click', () => {
+            const billAmount = +prompt("Введіть суму рахунку (грн):");
+            const tipAmount = calculateTip(billAmount);
+            showResult(billAmount, tipAmount);
+        });
+
+        function startGreetingTimer(message, seconds, callback) {
+            setTimeout(() => {
+                alert(message);
+                callback();
+            }, seconds * 1000);
+        }
+
+        const btnTask1Lvl2 = document.getElementById('btn-task1-lvl2');
+        btnTask1Lvl2.addEventListener('click', () => {
+            const message = prompt("Введіть текст повідомлення:");
+            const seconds = +prompt("Через скільки секунд вивести повідомлення?");
+
+            startGreetingTimer(message, seconds, () => {
+                alert('Time is up!');
+            });
+        });
+
+        function calculate(a, b, operation) {
+            switch (operation) {
+                case '+':
+                    return a + b;
+                case '-':
+                    return a - b;
+                case '*':
+                    return a * b;
+                case '/':
+                    return b !== 0 ? a / b : 'Помилка: ділення на нуль!';
+                default:
+                    return 'Invalid operation';
+            }
+        }
+
+        function showResultTask2Lvl2() {
+            const num1 = +prompt("Введіть перше число:");
+            const num2 = +prompt("Введіть друге число:");
+            const op = prompt("Введіть операцію (+, -, *, /):");
+
+            const calculationResult = calculate(num1, num2, op);
+            alert(`Результат: ${calculationResult}`);
+        }
+
+        const btnTask2Lvl2 = document.getElementById('btn-task2-lvl2');
+        btnTask2Lvl2.addEventListener('click', () => {
+            showResultTask2Lvl2();
+        });
+
+        function createClickCounter() {
+            let count = 0;
+            return function() {
+                count++;
+                console.log(`Поточне значення лічильника: ${count}`);
+                return count;
+            };
+        }
+
+        const clickCounter = createClickCounter();
+        const btnTask3Lvl2 = document.getElementById('btn-task3-lvl2');
+        const counterOutput = document.getElementById('counter-output');
+
+        btnTask3Lvl2.addEventListener('click', () => {
+            const currentCount = clickCounter();
+            counterOutput.textContent = `Значення з консолі: ${currentCount}`;
+        });
+    </script>
+</body>
+</html>
