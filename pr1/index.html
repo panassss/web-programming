@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Практична робота - Сончак Ярослав</title>
+</head>
+<body>
+    <h1>Практична робота №1</h1>
+
+    <h2>Завдання 1</h2>
+    <button id="btn-available">Показати товари в наявності</button>
+    <button id="btn-find">Знайти товар за назвою</button>
+
+    <h2>Завдання 2</h2>
+    <button id="btn-group">Згрупувати студентів за групами</button>
+    <button id="btn-sort">Відсортувати студентів за оцінкою</button>
+
+    <h2>Завдання 3</h2>
+    <button id="btn-avg-salary">Середня зарплата</button>
+    <button id="btn-experienced">Найдосвідченіший працівник</button>
+
+    <h2>Завдання 4</h2>
+    <button id="btn-unread">Непрочитані книги</button>
+    <button id="btn-by-author">Книги за автором</button>
+    <button id="btn-top-rated">Топ-книги за рейтингом</button>
+
+    <script type="module">
+        const products = [
+            { name: "Ноутбук", category: "Електроніка", price: 25000, inStock: 5 },
+            { name: "Смартфон", category: "Електроніка", price: 15000, inStock: 0 },
+            { name: "Навушники", category: "Аксесуари", price: 2000, inStock: 12 },
+            { name: "Клавіатура", category: "Аксесуари", price: 1800, inStock: 0 },
+            { name: "Монітор", category: "Електроніка", price: 8500, inStock: 3 }
+        ];
+
+        function getAvailableProducts() {
+            return products.filter(product => product.inStock > 0);
+        }
+
+        function findProductByName(productName) {
+            const foundProduct = products.find(
+                product => product.name.toLowerCase() === productName.trim().toLowerCase()
+            );
+            return foundProduct || "Товар не знайдено";
+        }
+
+        const btnAvailable = document.getElementById('btn-available');
+        btnAvailable.addEventListener('click', () => {
+            const available = getAvailableProducts();
+            const resultText = available
+                .map(p => `${p.name} (${p.category}) - ${p.price} грн [в наявності: ${p.inStock} шт]`)
+                .join('\n');
+            
+            alert(`Товари в наявності:\n\n${resultText}`);
+        });
+
+        const btnFind = document.getElementById('btn-find');
+        btnFind.addEventListener('click', () => {
+            const query = prompt("Введіть назву товару:");
+            if (!query) return;
+
+            const result = findProductByName(query);
+            if (typeof result === "object") {
+                alert(`Знайдено товар:\nНазва: ${result.name}\nКатегорія: ${result.category}\nЦіна: ${result.price} грн\nЗалишок: ${result.inStock} шт`);
+            } else {
+                alert(result);
+            }
+        });
+
+        const students = [
+            { name: "Ростислав", age: 18, grade: 95, group: "ПІ-23-01" },
+            { name: "Назарій", age: 18, grade: 90, group: "ПІ-23-01" },
+            { name: "Ірина", age: 18, grade: 85, group: "ПІ-23-02" },
+            { name: "Василь", age: 28, grade: 72, group: "ПІ-23-02" },
+            { name: "Олег", age: 18, grade: 65, group: "ПІ-23-02" }
+        ];
+
+        function groupBy(studentsList) {
+            return studentsList.reduce((acc, student) => {
+                const groupName = student.group;
+                if (!acc[groupName]) {
+                    acc[groupName] = [];
+                }
+                acc[groupName].push(student);
+                return acc;
+            }, {});
+        }
+
+        function sortStudentsByGrade(studentsList) {
+            return studentsList.slice().sort((a, b) => b.grade - a.grade);
+        }
+
+        const btnGroup = document.getElementById('btn-group');
+        btnGroup.addEventListener('click', () => {
+            const grouped = groupBy(students);
+            console.log("Згруповані студенти:", grouped);
+
+            let message = "Студенти за групами:\n\n";
+            for (const group in grouped) {
+                const names = grouped[group].map(s => s.name).join(", ");
+                message += `${group}: ${names}\n`;
+            }
+            alert(message);
+        });
+
+        const btnSort = document.getElementById('btn-sort');
+        btnSort.addEventListener('click', () => {
+            const sorted = sortStudentsByGrade(students);
+            console.log("Відсортовані студенти:", sorted);
+
+            const resultText = sorted
+                .map((s, index) => `${index + 1}. ${s.name} (${s.group}) — ${s.grade} балів`)
+                .join('\n');
+
+            alert(`Рейтинг за оцінками (спадання):\n\n${resultText}`);
+        });
+
+        const employees = [
+            { name: "Олександр", position: "Frontend Developer", salary: 45000, years: 3 },
+            { name: "Тетяна", position: "Project Manager", salary: 55000, years: 6 },
+            { name: "Михайло", position: "Backend Developer", salary: 60000, years: 5 },
+            { name: "Віктор", position: "QA Engineer", salary: 35000, years: 2 },
+            { name: "Златан", position: "Team Lead", salary: 100000, years: 8 }
+        ];
+
+        function getAverageSalary(employeesList) {
+            if (employeesList.length === 0) return 0;
+            const totalSalary = employeesList.reduce((acc, emp) => acc + emp.salary, 0);
+            return totalSalary / employeesList.length;
+        }
+
+        function findMostExperiencedEmployee(employeesList) {
+            if (employeesList.length === 0) return null;
+            return employeesList.reduce((mostExp, emp) => {
+                return emp.years > mostExp.years ? emp : mostExp;
+            });
+        }
+
+        const btnAvgSalary = document.getElementById('btn-avg-salary');
+        btnAvgSalary.addEventListener('click', () => {
+            const avg = getAverageSalary(employees);
+            console.log("Середня зарплата:", avg);
+            alert(`Середня зарплата працівників: ${avg.toFixed(2)} грн`);
+        });
+
+        const btnExperienced = document.getElementById('btn-experienced');
+        btnExperienced.addEventListener('click', () => {
+            const emp = findMostExperiencedEmployee(employees);
+            console.log("Найдосвідченіший працівник:", emp);
+            if (emp) {
+                alert(`Найдосвідченіший працівник:\nІм'я: ${emp.name}\nПосада: ${emp.position}\nДосвід: ${emp.years} р.\nЗарплата: ${emp.salary} грн`);
+            }
+        });
+
+        const books = [
+            { title: "1984", author: "Джордж Орвелл", year: 1949, rating: 4.8, isRead: true },
+            { title: "Колгосп тварин", author: "Джордж Орвелл", year: 1945, rating: 4.6, isRead: false },
+            { title: "Кобзар", author: "Тарас Шевченко", year: 1840, rating: 5.0, isRead: true },
+            { title: "Гайдамаки", author: "Тарас Шевченко", year: 1841, rating: 4.2, isRead: false },
+            { title: "Тигролови", author: "Іван Багряний", year: 1944, rating: 4.7, isRead: true },
+            { title: "Місто", author: "Валер'ян Підмогильний", year: 1928, rating: 3.9, isRead: false }
+        ];
+
+        function getUnreadBooks(booksList) {
+            return booksList.reduce((acc, book) => {
+                if (!book.isRead) {
+                    acc.push(book.title);
+                }
+                return acc;
+            }, []);
+        }
+
+        function getBooksByAuthor(booksList, authorName) {
+            const filtered = booksList.reduce((acc, book) => {
+                if (book.author.toLowerCase() === authorName.trim().toLowerCase()) {
+                    acc.push(book);
+                }
+                return acc;
+            }, []);
+
+            return filtered.sort((a, b) => a.year - b.year);
+        }
+
+        function getTopRatedBooks(booksList) {
+            const filtered = booksList.reduce((acc, book) => {
+                if (book.rating > 4) {
+                    acc.push(book);
+                }
+                return acc;
+            }, []);
+
+            return filtered.sort((a, b) => b.rating - a.rating);
+        }
+
+        const btnUnread = document.getElementById('btn-unread');
+        btnUnread.addEventListener('click', () => {
+            const unread = getUnreadBooks(books);
+            console.log("Непрочитані книги:", unread);
+            alert(`Непрочитані книги:\n\n- ${unread.join('\n- ')}`);
+        });
+
+        const btnByAuthor = document.getElementById('btn-by-author');
+        btnByAuthor.addEventListener('click', () => {
+            const author = prompt("Введіть автора:");
+            if (!author) return;
+
+            const authorBooks = getBooksByAuthor(books, author);
+            console.log(`Книги автора ${author}:`, authorBooks);
+
+            if (authorBooks.length === 0) {
+                alert(`Книг автора "${author}" не знайдено.`);
+            } else {
+                const text = authorBooks
+                    .map(b => `"${b.title}" (${b.year} р.) — рейтинг: ${b.rating}`)
+                    .join('\n');
+                alert(`Книги автора ${author} (за зростанням року):\n\n${text}`);
+            }
+        });
+
+        const btnTopRated = document.getElementById('btn-top-rated');
+        btnTopRated.addEventListener('click', () => {
+            const topBooks = getTopRatedBooks(books);
+            console.log("Топ-книги:", topBooks);
+
+            const text = topBooks
+                .map((b, i) => `${i + 1}. "${b.title}" — ${b.author} [рейтинг: ${b.rating}]`)
+                .join('\n');
+            alert(`Книги з рейтингом вище 4 (за спаданням):\n\n${text}`);
+        });
+    </script>
+</body>
+</html>
