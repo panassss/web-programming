@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота 5 - Сончак Ярослав</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        .converter-box, .quiz-box, .captcha-wrapper {
+            background: #fff;
+            padding: 10px 0;
+            border-radius: 8px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #333;
+        }
+
+        input[type="number"], input[type="text"] {
+            padding: 4px 8px;
+            font-size: 16px;
+            border: 1px solid #aaa;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .score-text {
+            font-size: 20px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .quiz-controls {
+            margin-bottom: 15px;
+        }
+
+        .quiz-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .quiz-row input {
+            width: 140px;
+        }
+
+        .result-text {
+            font-size: 18px;
+            font-weight: 500;
+            min-height: 24px;
+        }
+
+        .radio-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 12px 0 16px 0;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .radio-label input[type="radio"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        button {
+            padding: 4px 12px;
+            font-size: 15px;
+            cursor: pointer;
+            border: 1px solid #707070;
+            border-radius: 3px;
+            background-color: #f0f0f0;
+        }
+
+        button:hover {
+            background-color: #e5e5e5;
+        }
+
+        .btn-next-style {
+            border-color: #7ba4d6;
+            background-color: #eef5fc;
+        }
+
+        .btn-next-style:hover {
+            background-color: #dceaf9;
+        }
+
+        .rotator-frame {
+            display: inline-block;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            user-select: none;
+        }
+
+        .rotator-header {
+            text-align: center;
+            padding: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #444;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .rotator-main {
+            display: flex;
+            align-items: center;
+        }
+
+        .rotator-nav {
+            width: 80px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .rotator-nav a {
+            color: #3b5998;
+            font-size: 16px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .rotator-nav a:hover {
+            color: #1d2f5d;
+        }
+
+        .rotator-nav a.hidden {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .rotator-image-box {
+            width: 520px;
+            height: 350px;
+            border-left: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+        }
+
+        .rotator-image-box img {
+            max-width: 500px;
+            max-height: 330px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .rotator-footer {
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .rotator-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        .rotator-desc {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .captcha-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 140px;
+        }
+
+        .captcha-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #2b3e50;
+            margin-bottom: 8px;
+        }
+
+        .captcha-display {
+            border: 2px solid #b3b3b3;
+            border-bottom: none;
+            padding: 6px;
+            display: flex;
+            gap: 6px;
+            background-color: #fff;
+            min-height: 35px;
+            align-items: center;
+        }
+
+        .captcha-digit {
+            display: grid;
+            grid-template-columns: repeat(3, 6px);
+            grid-template-rows: repeat(5, 6px);
+            gap: 1px;
+        }
+
+        .captcha-pixel {
+            width: 6px;
+            height: 6px;
+            display: block;
+        }
+
+        .captcha-pixel.on {
+            background-color: #ff0000;
+        }
+
+        .captcha-pixel.off {
+            background-color: transparent;
+        }
+
+        #captcha-input {
+            width: 120px;
+            padding: 4px 8px;
+            font-size: 18px;
+            border: 2px solid #b3b3b3;
+            border-radius: 0;
+            box-sizing: content-box;
+            outline: none;
+        }
+
+        #captcha-status {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 6px;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Лабораторна робота №5:</h1>
+
+    <h2>Завдання 1:</h2>
+    <div class="converter-box">
+        <div class="form-row">
+            <label for="fahrenheit">Температура за Фаренгейтом</label>
+            <input type="number" id="fahrenheit" step="any" placeholder="Введіть °F">
+        </div>
+        <div class="form-row">
+            <label for="celsius">Температура за Цельсієм</label>
+            <input type="number" id="celsius" step="any" placeholder="Введіть °C">
+        </div>
+    </div>
+
+    <h2>Завдання 2:</h2>
+    <div class="quiz-box">
+        <div id="score" class="score-text">Загальний рахунок 100% (0 правильних відповідей з 0)</div>
+        <div class="quiz-controls">
+            <button id="btn-next" class="btn-next-style">наступне завдання</button>
+        </div>
+        <div class="quiz-row">
+            <span id="task-question">? × ? =</span>
+            <input type="text" id="answer-input" placeholder="відповідь">
+            <button id="btn-check">перевірити</button>
+        </div>
+        <div id="check-result" class="result-text"></div>
+    </div>
+
+    <h2>Завдання 3:</h2>
+    <div class="quiz-box">
+        <div id="score-r" class="score-text">Загальний рахунок 100% (0 правильних відповідей з 0)</div>
+        <div class="quiz-controls">
+            <button id="btn-next-r" class="btn-next-style">наступне завдання</button>
+        </div>
+        <div style="font-size: 20px;" id="task-question-r">? × ? =</div>
+        <div id="radio-container" class="radio-options"></div>
+        <div id="check-result-r" class="result-text"></div>
+    </div>
+
+    <h2>Завдання 4 (Принтери, варіант 14):</h2>
+    <div id="rotator"></div>
+
+    <h2>Завдання 5:</h2>
+    <div class="captcha-wrapper">
+        <div class="captcha-title">Введіть число</div>
+        <div id="captcha-box" class="captcha-display"></div>
+        <input type="text" id="captcha-input" maxlength="2" autocomplete="off">
+        <div id="captcha-status"></div>
+    </div>
+
+    <script>
+        const fahrenheitInput = document.getElementById('fahrenheit');
+        const celsiusInput = document.getElementById('celsius');
+
+        function convertFahrenheitToCelsius() {
+            const fVal = fahrenheitInput.value.trim();
+            if (fVal === "") {
+                celsiusInput.value = "";
+                return;
+            }
+            const f = parseFloat(fVal);
+            if (!isNaN(f)) {
+                const c = (5 / 9) * (f - 32);
+                celsiusInput.value = Number(c.toFixed(2));
+            }
+        }
+
+        function convertCelsiusToFahrenheit() {
+            const cVal = celsiusInput.value.trim();
+            if (cVal === "") {
+                fahrenheitInput.value = "";
+                return;
+            }
+            const c = parseFloat(cVal);
+            if (!isNaN(c)) {
+                const f = (c * 9 / 5) + 32;
+                fahrenheitInput.value = Number(f.toFixed(2));
+            }
+        }
+
+        fahrenheitInput.addEventListener('input', convertFahrenheitToCelsius);
+        celsiusInput.addEventListener('input', convertCelsiusToFahrenheit);
+
+
+        let totalQuestions = 0;
+        let correctAnswers = 0;
+        let num1 = 0, num2 = 0;
+        let isCurrentAnswerChecked = false;
+
+        const scoreElement = document.getElementById('score');
+        const questionElement = document.getElementById('task-question');
+        const answerInput = document.getElementById('answer-input');
+        const resultElement = document.getElementById('check-result');
+        const btnNext = document.getElementById('btn-next');
+        const btnCheck = document.getElementById('btn-check');
+
+        function updateScoreDisplay() {
+            const percentage = totalQuestions === 0 ? 100 : Math.round((correctAnswers / totalQuestions) * 100);
+            scoreElement.textContent = `Загальний рахунок ${percentage}% (${correctAnswers} правильних відповідей з ${totalQuestions})`;
+        }
+
+        function generateTask() {
+            num1 = Math.floor(Math.random() * 9) + 2;
+            num2 = Math.floor(Math.random() * 9) + 2;
+            questionElement.textContent = `${num1} × ${num2} =`;
+            answerInput.value = "";
+            answerInput.disabled = false;
+            btnCheck.disabled = false;
+            resultElement.textContent = "";
+            isCurrentAnswerChecked = false;
+            answerInput.focus();
+        }
+
+        function checkAnswer() {
+            if (isCurrentAnswerChecked) return;
+
+            const userAnswer = answerInput.value.trim();
+            if (userAnswer === "") {
+                alert("Будь ласка, введіть відповідь!");
+                return;
+            }
+
+            const correctAnswer = num1 * num2;
+            totalQuestions++;
+
+            if (parseInt(userAnswer, 10) === correctAnswer) {
+                correctAnswers++;
+                resultElement.textContent = "Правильно!";
+                resultElement.style.color = "#2e7d32";
+            } else {
+                resultElement.textContent = `Помилка, правильна відповідь «${correctAnswer}»`;
+                resultElement.style.color = "#c62828";
+            }
+
+            isCurrentAnswerChecked = true;
+            btnCheck.disabled = true;
+            answerInput.disabled = true;
+            updateScoreDisplay();
+        }
+
+        btnNext.addEventListener('click', generateTask);
+        btnCheck.addEventListener('click', checkAnswer);
+        answerInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') checkAnswer();
+        });
+        generateTask();
+
+
+        let totalQuestionsR = 0;
+        let correctAnswersR = 0;
+        let num1R = 0, num2R = 0;
+        let isAnswerCheckedR = false;
+
+        const scoreElementR = document.getElementById('score-r');
+        const questionElementR = document.getElementById('task-question-r');
+        const radioContainer = document.getElementById('radio-container');
+        const resultElementR = document.getElementById('check-result-r');
+        const btnNextR = document.getElementById('btn-next-r');
+
+        function updateScoreDisplayR() {
+            const percentage = totalQuestionsR === 0 ? 100 : Math.round((correctAnswersR / totalQuestionsR) * 100);
+            scoreElementR.textContent = `Загальний рахунок ${percentage}% (${correctAnswersR} правильних відповідей з ${totalQuestionsR})`;
+        }
+
+        function generateTaskRadio() {
+            num1R = Math.floor(Math.random() * 9) + 2;
+            num2R = Math.floor(Math.random() * 9) + 2;
+            const correctAnswer = num1R * num2R;
+
+            questionElementR.textContent = `${num1R} × ${num2R} =`;
+            resultElementR.textContent = "";
+            isAnswerCheckedR = false;
+            radioContainer.innerHTML = "";
+
+            const options = new Set([correctAnswer]);
+            while (options.size < 4) {
+                const delta = Math.floor(Math.random() * 11) - 5;
+                const fake = correctAnswer + delta;
+                if (fake > 0 && fake !== correctAnswer) {
+                    options.add(fake);
+                }
+            }
+
+            const shuffledOptions = Array.from(options).sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach(val => {
+                const label = document.createElement('label');
+                label.className = 'radio-label';
+
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'task-radio';
+                radio.value = val;
+
+                radio.addEventListener('change', () => {
+                    handleRadioSelection(val, correctAnswer);
+                });
+
+                label.append(radio, document.createTextNode(val));
+                radioContainer.append(label);
+            });
+        }
+
+        function handleRadioSelection(selectedValue, correctAnswer) {
+            if (isAnswerCheckedR) return;
+            isAnswerCheckedR = true;
+            totalQuestionsR++;
+
+            const allRadios = radioContainer.querySelectorAll('input[type="radio"]');
+            allRadios.forEach(r => r.disabled = true);
+
+            if (selectedValue === correctAnswer) {
+                correctAnswersR++;
+                resultElementR.textContent = "Правильно!";
+                resultElementR.style.color = "#2e7d32";
+            } else {
+                resultElementR.textContent = `Помилка, правильна відповідь «${correctAnswer}»`;
+                resultElementR.style.color = "#c62828";
+            }
+
+            updateScoreDisplayR();
+        }
+
+        btnNextR.addEventListener('click', generateTaskRadio);
+        generateTaskRadio();
+
+
+        let imagesArray = [
+            {
+                path: 'images/001.jpg',
+                title: 'Лазерний БФП HP LaserJet',
+                description: 'Швидкісний монохромний лазерний принтер для офісного друку'
+            },
+            {
+                path: 'images/002.jpg',
+                title: 'Струменевий принтер Epson EcoTank',
+                description: 'Кольоровий принтер із системою безперервної подачі чорнил'
+            },
+            {
+                path: 'images/003.jpg',
+                title: '3D-принтер Creality Ender',
+                description: 'FDM-принтер для тривимірного друку деталей із пластику'
+            }
+        ];
+
+        function initPhotoRotator(containerId, images) {
+            const container = document.getElementById(containerId);
+            if (!container || !images || images.length === 0) return;
+
+            let currentIndex = 0;
+
+            const frame = document.createElement('div');
+            frame.className = 'rotator-frame';
+
+            const header = document.createElement('div');
+            header.className = 'rotator-header';
+
+            const mainRow = document.createElement('div');
+            mainRow.className = 'rotator-main';
+
+            const leftNav = document.createElement('div');
+            leftNav.className = 'rotator-nav';
+            const prevLink = document.createElement('a');
+            prevLink.href = '#';
+            prevLink.textContent = 'Назад';
+            leftNav.append(prevLink);
+
+            const imgBox = document.createElement('div');
+            imgBox.className = 'rotator-image-box';
+            const img = document.createElement('img');
+            imgBox.append(img);
+
+            const rightNav = document.createElement('div');
+            rightNav.className = 'rotator-nav';
+            const nextLink = document.createElement('a');
+            nextLink.href = '#';
+            nextLink.textContent = 'Вперед';
+            rightNav.append(nextLink);
+
+            mainRow.append(leftNav, imgBox, rightNav);
+
+            const footer = document.createElement('div');
+            footer.className = 'rotator-footer';
+
+            const titleEl = document.createElement('div');
+            titleEl.className = 'rotator-title';
+
+            const descEl = document.createElement('div');
+            descEl.className = 'rotator-desc';
+
+            footer.append(titleEl, descEl);
+            frame.append(header, mainRow, footer);
+            container.append(frame);
+
+            function updateRotator() {
+                const current = images[currentIndex];
+                img.src = current.path;
+                img.alt = current.title;
+
+                header.textContent = `Фотографія ${currentIndex + 1} з ${images.length}`;
+                titleEl.textContent = current.title;
+                descEl.textContent = current.description;
+
+                if (currentIndex === 0) {
+                    prevLink.classList.add('hidden');
+                } else {
+                    prevLink.classList.remove('hidden');
+                }
+
+                if (currentIndex === images.length - 1) {
+                    nextLink.classList.add('hidden');
+                } else {
+                    nextLink.classList.remove('hidden');
+                }
+            }
+
+            prevLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateRotator();
+                }
+            });
+
+            nextLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentIndex < images.length - 1) {
+                    currentIndex++;
+                    updateRotator();
+                }
+            });
+
+            updateRotator();
+        }
+
+        initPhotoRotator('rotator', imagesArray);
+
+
+        const digitBitmaps = {
+            '0': [
+                1,1,1,
+                1,0,1,
+                1,0,1,
+                1,0,1,
+                1,1,1
+            ],
+            '1': [
+                0,1,0,
+                1,1,0,
+                0,1,0,
+                0,1,0,
+                1,1,1
+            ],
+            '2': [
+                1,1,1,
+                0,0,1,
+                1,1,1,
+                1,0,0,
+                1,1,1
+            ],
+            '3': [
+                1,1,1,
+                0,0,1,
+                1,1,1,
+                0,0,1,
+                1,1,1
+            ],
+            '4': [
+                1,0,1,
+                1,0,1,
+                1,1,1,
+                0,0,1,
+                0,0,1
+            ],
+            '5': [
+                1,1,1,
+                1,0,0,
+                1,1,1,
+                0,0,1,
+                1,1,1
+            ],
+            '6': [
+                1,1,1,
+                1,0,0,
+                1,1,1,
+                1,0,1,
+                1,1,1
+            ],
+            '7': [
+                1,1,1,
+                0,0,1,
+                0,1,0,
+                0,1,0,
+                0,1,0
+            ],
+            '8': [
+                1,1,1,
+                1,0,1,
+                1,1,1,
+                1,0,1,
+                1,1,1
+            ],
+            '9': [
+                1,1,1,
+                1,0,1,
+                1,1,1,
+                0,0,1,
+                1,1,1
+            ]
+        };
+
+        let generatedCaptchaCode = "";
+
+        function initCaptcha(digitsCount) {
+            const captchaBox = document.getElementById('captcha-box');
+            const inputField = document.getElementById('captcha-input');
+            const statusField = document.getElementById('captcha-status');
+
+            captchaBox.innerHTML = "";
+            generatedCaptchaCode = "";
+            inputField.value = "";
+            inputField.maxLength = digitsCount;
+            statusField.textContent = "";
+
+            for (let i = 0; i < digitsCount; i++) {
+                const randomDigit = Math.floor(Math.random() * 10).toString();
+                generatedCaptchaCode += randomDigit;
+
+                const digitContainer = document.createElement('div');
+                digitContainer.className = 'captcha-digit';
+
+                const pattern = digitBitmaps[randomDigit];
+                pattern.forEach(pixelVal => {
+                    const pixelSpan = document.createElement('span');
+                    pixelSpan.className = 'captcha-pixel ' + (pixelVal === 1 ? 'on' : 'off');
+                    digitContainer.append(pixelSpan);
+                });
+
+                captchaBox.append(digitContainer);
+            }
+        }
+
+        function verifyCaptcha() {
+            const inputField = document.getElementById('captcha-input');
+            const statusField = document.getElementById('captcha-status');
+            const entered = inputField.value.trim();
+
+            if (entered.length === 0) {
+                statusField.textContent = "";
+                return;
+            }
+
+            if (entered === generatedCaptchaCode) {
+                statusField.textContent = "Правильно";
+                statusField.style.color = "#2e7d32";
+            } else {
+                statusField.textContent = "Помилка";
+                statusField.style.color = "#ff0000";
+            }
+        }
+
+        const captchaInput = document.getElementById('captcha-input');
+
+        captchaInput.addEventListener('input', () => {
+            if (captchaInput.value.trim().length === generatedCaptchaCode.length) {
+                verifyCaptcha();
+            } else {
+                document.getElementById('captcha-status').textContent = "";
+            }
+        });
+
+        captchaInput.addEventListener('change', verifyCaptcha);
+
+        initCaptcha(2);
+    </script>
+</body>
+</html>
