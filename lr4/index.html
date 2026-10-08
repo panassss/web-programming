@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота 4 - Сончак Ярослав</title>
+</head>
+<body>
+    <h1>Лабораторна робота 4:</h1>
+
+    <h2>Завдання 1:</h2>
+    <button id="btn-book-info">Інформація про книгу</button>
+    <button id="btn-toggle-read">Змінити статус (isRead)</button>
+
+    <h2>Завдання 2:</h2>
+    <button id="btn-display-library">Показати всі книги</button>
+    <button id="btn-add-book">Додати нову книгу (push)</button>
+
+    <h2>Завдання 3:</h2>
+    <button id="btn-sort-year">Відсортувати за роком видання</button>
+    <button id="btn-filter-unread">Непрочитані книги (filter)</button>
+    <button id="btn-find-tolkien">Знайти книгу J.R.R. Tolkien (find)</button>
+
+    <h2>Завдання 4:</h2>
+    <button id="btn-add-custom-book">Додати власну книгу (prompt)</button>
+
+    <h2>Додаткові завдання до прикладів:</h2>
+    <button id="btn-mark-read">Позначити книгу як прочитану (markAsRead)</button>
+    <button id="btn-avg-year">Середній рік видання книг (calculateAverageYear)</button>
+
+
+    <h2>Індивідуальне завдання (Ресторанні замовлення, варіант 14):</h2>
+    <button id="btn-dish-info">Інформація про страву</button>
+    <button id="btn-toggle-dish">Змінити статус замовлення</button>
+    <button id="btn-display-menu">Показати меню ресторану</button>
+    <button id="btn-add-dish-push">Додати десерт (push)</button>
+    <button id="btn-add-dish-prompt">Додати власну страву (prompt)</button>
+    <button id="btn-sort-price">Сортувати за ціною</button>
+    <button id="btn-filter-ordered">Замовлені страви (filter)</button>
+    <button id="btn-find-dish">Знайти "Борщ український" (find)</button>
+    <button id="btn-avg-price">Середня вартість страв</button>
+
+    <script type="module">
+        const book = {
+            title: "Harry Potter and the Sorcerer's Stone",
+            author: "J.K. Rowling",
+            year: 1997,
+            isRead: true,
+            bookInfo() {
+                const status = this.isRead ? "Так" : "Ні";
+                const message = `Назва: ${this.title}, Автор: ${this.author}, Рік видання: ${this.year}, Прочитана: ${status}`;
+                console.log(message);
+                return message;
+            }
+        };
+
+        document.getElementById('btn-book-info').addEventListener('click', () => {
+            alert(book.bookInfo());
+        });
+
+        document.getElementById('btn-toggle-read').addEventListener('click', () => {
+            book.isRead = !book.isRead;
+            alert(`Статус змінено!\n\n${book.bookInfo()}`);
+        });
+
+        let library = [
+            { 
+                title: "Harry Potter and the Sorcerer's Stone", 
+                author: "J.K. Rowling", 
+                year: 1997, 
+                isRead: true,
+                markAsRead() { this.isRead = true; }
+            },
+            { 
+                title: "The Hobbit", 
+                author: "J.R.R. Tolkien", 
+                year: 1937, 
+                isRead: false,
+                markAsRead() { this.isRead = true; }
+            },
+            { 
+                title: "1984", 
+                author: "George Orwell", 
+                year: 1949, 
+                isRead: true,
+                markAsRead() { this.isRead = true; }
+            }
+        ];
+
+        function displayLibrary() {
+            let outputLines = [];
+            library.forEach(b => {
+                const status = b.isRead ? "Так" : "Ні";
+                const line = `Назва: ${b.title}, Автор: ${b.author}, Рік видання: ${b.year}, Прочитана: ${status}`;
+                console.log(line);
+                outputLines.push(line);
+            });
+            return outputLines.join('\n\n');
+        }
+
+        document.getElementById('btn-display-library').addEventListener('click', () => {
+            alert(`Список книг у бібліотеці:\n\n${displayLibrary()}`);
+        });
+
+        document.getElementById('btn-add-book').addEventListener('click', () => {
+            library.push({ 
+                title: "The Great Gatsby", 
+                author: "F. Scott Fitzgerald", 
+                year: 1925, 
+                isRead: false,
+                markAsRead() { this.isRead = true; }
+            });
+            alert(`Додано книгу "The Great Gatsby"!\nОновлена бібліотека:\n\n${displayLibrary()}`);
+        });
+
+        document.getElementById('btn-sort-year').addEventListener('click', () => {
+            const sorted = [...library].sort((a, b) => a.year - b.year);
+            console.log("Книги за роком видання (зростання):", sorted);
+            const text = sorted.map(b => `${b.year} р. — "${b.title}" (${b.author})`).join('\n');
+            alert(`Книги за роком видання (зростання):\n\n${text}`);
+        });
+
+        document.getElementById('btn-filter-unread').addEventListener('click', () => {
+            const unread = library.filter(b => !b.isRead);
+            console.log("Непрочитані книги (unreadBooks):", unread);
+            const text = unread.map(b => `"${b.title}" (${b.author}, ${b.year} р.)`).join('\n');
+            alert(`Непрочитані книги:\n\n${text}`);
+        });
+
+        document.getElementById('btn-find-tolkien').addEventListener('click', () => {
+            const tolkienBook = library.find(b => b.author === "J.R.R. Tolkien");
+            console.log("Знайдена книга J.R.R. Tolkien:", tolkienBook);
+            if (tolkienBook) {
+                const status = tolkienBook.isRead ? "Так" : "Ні";
+                alert(`Знайдено книгу:\n\nНазва: ${tolkienBook.title}\nАвтор: ${tolkienBook.author}\nРік: ${tolkienBook.year}\nПрочитана: ${status}`);
+            } else {
+                alert("Книгу автора J.R.R. Tolkien не знайдено");
+            }
+        });
+
+        function addBookToLibrary() {
+            let title = prompt("Введіть назву книги:");
+            if (!title) return;
+
+            let author = prompt("Введіть автора книги:");
+            if (!author) return;
+
+            let year = +prompt("Введіть рік видання книги:");
+            let isRead = confirm("Чи прочитана книга?");
+
+            library.push({ 
+                title, 
+                author, 
+                year, 
+                isRead,
+                markAsRead() { this.isRead = true; }
+            });
+
+            alert(`Книгу успішно додано!\n\nОновлена бібліотека:\n\n${displayLibrary()}`);
+        }
+
+        document.getElementById('btn-add-custom-book').addEventListener('click', () => {
+            addBookToLibrary();
+        });
+
+        document.getElementById('btn-mark-read').addEventListener('click', () => {
+            const unread = library.find(b => !b.isRead);
+            if (unread) {
+                unread.markAsRead();
+                alert(`Книгу "${unread.title}" позначено як прочитану за допомогою методу markAsRead()!\n\n${displayLibrary()}`);
+            } else {
+                alert("Усі книги в бібліотеці вже прочитані!");
+            }
+        });
+
+        function calculateAverageYear() {
+            if (library.length === 0) return 0;
+            const totalYears = library.reduce((sum, currentBook) => sum + currentBook.year, 0);
+            return Math.round(totalYears / library.length);
+        }
+
+        document.getElementById('btn-avg-year').addEventListener('click', () => {
+            const avg = calculateAverageYear();
+            console.log("Середній рік видання книг:", avg);
+            alert(`Середній рік видання всіх книг у бібліотеці: ${avg} рік`);
+        });
+
+        const singleDish = {
+            title: "Борщ український",
+            type: "основна страва",
+            price: 180,
+            isOrdered: false,
+            dishInfo() {
+                const status = this.isOrdered ? "Замовлено" : "Вільна позиція";
+                const message = `Страва: "${this.title}", Категорія: ${this.type}, Ціна: ${this.price} грн, Статус: ${status}`;
+                console.log(message);
+                return message;
+            }
+        };
+
+        let restaurantMenu = [
+            { 
+                title: "Борщ український", 
+                type: "основна страва", 
+                price: 180, 
+                isOrdered: false,
+                orderDish() { this.isOrdered = true; }
+            },
+            { 
+                title: "Брускети з лососем", 
+                type: "закуска", 
+                price: 140, 
+                isOrdered: true,
+                orderDish() { this.isOrdered = true; }
+            },
+            { 
+                title: "Тірамісу", 
+                type: "десерт", 
+                price: 120, 
+                isOrdered: false,
+                orderDish() { this.isOrdered = true; }
+            },
+            { 
+                title: "Стейк Рібай", 
+                type: "основна страва", 
+                price: 450, 
+                isOrdered: true,
+                orderDish() { this.isOrdered = true; }
+            }
+        ];
+
+        function displayMenu() {
+            let lines = [];
+            restaurantMenu.forEach(d => {
+                const status = d.isOrdered ? "Замовлено" : "Вільна позиція";
+                const line = `"${d.title}" | ${d.type} | ${d.price} грн | Статус: ${status}`;
+                console.log(line);
+                lines.push(line);
+            });
+            return lines.join('\n\n');
+        }
+
+        function calculateAveragePrice() {
+            if (restaurantMenu.length === 0) return 0;
+            const totalPrice = restaurantMenu.reduce((sum, dish) => sum + dish.price, 0);
+            return (totalPrice / restaurantMenu.length).toFixed(2);
+        }
+
+        document.getElementById('btn-dish-info').addEventListener('click', () => {
+            alert(singleDish.dishInfo());
+        });
+
+        document.getElementById('btn-toggle-dish').addEventListener('click', () => {
+            singleDish.isOrdered = !singleDish.isOrdered;
+            alert(`Статус страви змінено!\n\n${singleDish.dishInfo()}`);
+        });
+
+        document.getElementById('btn-display-menu').addEventListener('click', () => {
+            alert(`Меню ресторану:\n\n${displayMenu()}`);
+        });
+
+        document.getElementById('btn-add-dish-push').addEventListener('click', () => {
+            restaurantMenu.push({
+                title: "Чизкейк Нью-Йорк",
+                type: "десерт",
+                price: 135,
+                isOrdered: false,
+                orderDish() { this.isOrdered = true; }
+            });
+            alert(`Додано "Чизкейк Нью-Йорк" у меню ресторану!\n\n${displayMenu()}`);
+        });
+
+        document.getElementById('btn-add-dish-prompt').addEventListener('click', () => {
+            const title = prompt("Введіть назву страви:");
+            if (!title) return;
+
+            const type = prompt("Введіть тип (закуска, основна страва, десерт):", "основна страва");
+            if (!type) return;
+
+            const price = +prompt("Введіть ціну страви (грн):", "150");
+            const isOrdered = confirm("Чи замовлено страву прямо зараз?");
+
+            restaurantMenu.push({
+                title,
+                type,
+                price,
+                isOrdered,
+                orderDish() { this.isOrdered = true; }
+            });
+
+            alert(`Страву додано в систему ресторану!\n\n${displayMenu()}`);
+        });
+
+        document.getElementById('btn-sort-price').addEventListener('click', () => {
+            const sortedMenu = [...restaurantMenu].sort((a, b) => a.price - b.price);
+            console.log("Меню за зростанням ціни:", sortedMenu);
+            const text = sortedMenu.map(d => `${d.price} грн — "${d.title}" (${d.type})`).join('\n');
+            alert(`Меню за зростанням ціни:\n\n${text}`);
+        });
+
+        document.getElementById('btn-filter-ordered').addEventListener('click', () => {
+            const orderedList = restaurantMenu.filter(d => d.isOrdered);
+            console.log("Замовлені страви:", orderedList);
+            const text = orderedList.map(d => `"${d.title}" — ${d.price} грн (${d.type})`).join('\n');
+            alert(`Поточне замовлення клієнта:\n\n${text}`);
+        });
+
+        document.getElementById('btn-find-dish').addEventListener('click', () => {
+            const borscht = restaurantMenu.find(d => d.title === "Борщ український");
+            console.log("Знайдена страва:", borscht);
+            if (borscht) {
+                alert(`Знайдено в меню:\n\nСтрава: ${borscht.title}\nКатегорія: ${borscht.type}\nЦіна: ${borscht.price} грн\nСтатус: ${borscht.isOrdered ? "Замовлено" : "Вільна позиція"}`);
+            } else {
+                alert("Страву не знайдено");
+            }
+        });
+
+        document.getElementById('btn-avg-price').addEventListener('click', () => {
+            const avg = calculateAveragePrice();
+            console.log("Середня ціна страви:", avg);
+            alert(`Середня вартість страви у меню ресторану: ${avg} грн`);
+        });
+    </script>
+</body>
+</html>
