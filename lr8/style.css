@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #ffffff;
+    color: #000000;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.todo-container {
+    width: 360px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.todo-box {
+    border: 1px solid #000000;
+    background: #ffffff;
+}
+
+#todo-input {
+    width: calc(100% - 10px);
+    margin: 5px;
+    padding: 6px 8px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
+    border: 1px solid #767676;
+    outline: none;
+    display: block;
+}
+
+#todo-input::placeholder {
+    color: #757575;
+}
+
+#todo-list {
+    list-style: none;
+    border-top: 1px solid #000000;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-bottom: 1px solid #000000;
+    background: #ffffff;
+    min-height: 42px;
+}
+
+.todo-item:last-child {
+    border-bottom: none;
+}
+
+.todo-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.todo-checkbox {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.todo-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-text {
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    line-height: 1.2;
+}
+
+.todo-date {
+    font-size: 11px;
+    color: #666666;
+}
+
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: #000000;
+}
+
+.todo-item.completed .todo-checkbox {
+    display: none;
+}
+
+.delete-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid #c9302c;
+    background-color: transparent;
+    color: #c9302c;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    margin-left: 8px;
+}
+
+.delete-btn:hover {
+    background-color: #c9302c;
+    color: #ffffff;
+}
+
+.edit-input {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
+    padding: 2px 4px;
+    border: 1px solid #000;
+    outline: none;
+}
