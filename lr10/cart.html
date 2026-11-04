@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота №10 — Корзина</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="header-back-link">← Повернутись до покупок</a>
+    </header>
+
+    <main class="main-wrapper">
+        <div class="cart-box">
+            <h2 class="cart-header-title">Ви обрали:</h2>
+
+            <div class="table-responsive">
+                <table class="basket-table">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Назва товару</th>
+                            <th>Ціна за од.</th>
+                            <th>К-сть:</th>
+                            <th>Сума:</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="cart-total-line">
+                <span>Разом до оплати: </span>
+                <span id="overall-sum" class="green-sum">0.00 грн.</span>
+            </div>
+
+            <div class="cart-buttons-row">
+                <button class="btn-action-pay" id="checkout-btn">Оплатити</button>
+                <a href="index.html" class="btn-action-back">Повернутись до покупок</a>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-backdrop" id="modal-change-qty">
+        <div class="modal-box">
+            <p class="modal-msg">Змінити кількість:</p>
+            <input type="number" id="edit-qty-field" min="1" value="1" class="modal-number-input">
+            <div class="modal-btn-group">
+                <button class="btn-modal-confirm" id="btn-submit-edit">Оновити</button>
+                <button class="btn-modal-secondary close-btn">Скасувати</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

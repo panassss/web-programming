@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота №10 — Каталог (Варіант 14)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="cart-wrapper" id="cart-icon-btn">
+            <span class="cart-symbol">🛒</span>
+            <span class="cart-count-badge" id="cart-badge">0</span>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <h1 class="main-heading">ОБОВ'ЯЗКОВО ДОДАЙТЕ СВОЄ ЗАМОВЛЕННЯ</h1>
+
+        <div class="slider-container">
+            <button class="nav-arrow left-arrow" aria-label="Назад">&#8249;</button>
+
+            <div class="products-row">
+                <div class="product-column" data-id="1" data-name="Карабін Savage Axis II" data-price="28500">
+                    <div class="round-badge green-badge">НОВИНКА</div>
+                    <div class="category-name">НАРІЗНА ЗБРОЯ</div>
+                    <div class="card-divider"></div>
+                    <div class="image-box">
+                        <img src="gun1.jpg" alt="Карабін Savage Axis II">
+                    </div>
+                    <h3 class="item-title">SAVAGE AXIS II</h3>
+                    <div class="card-action">
+                        <button class="btn-disabled" disabled>НЕЗАБАРОМ У<br>ПРОДАЖІ</button>
+                    </div>
+                </div>
+
+                <div class="product-column" data-id="2" data-name="Рушниця Beretta A400" data-price="42000">
+                    <div class="category-name">ГЛАДКОСТВОЛЬНА ЗБРОЯ</div>
+                    <div class="card-divider"></div>
+                    <div class="image-box">
+                        <img src="gun2.jpg" alt="Рушниця Beretta A400">
+                    </div>
+                    <h3 class="item-title">BERETTA A400</h3>
+                    <div class="price-container">
+                        <span class="old-price">45 000 ГРН</span>
+                        <span class="current-price">42 000 ГРН</span>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-add-cart">У КОРЗИНУ</button>
+                    </div>
+                </div>
+
+                <div class="product-column" data-id="3" data-name="Спортивний лук Bear Archery" data-price="16500">
+                    <div class="round-badge blue-badge">ХІТ<br>ПРОДАЖІВ</div>
+                    <div class="category-name">СПОРТИВНА ЗБРОЯ</div>
+                    <div class="card-divider"></div>
+                    <div class="image-box">
+                        <img src="bow.jpg" alt="Спортивний лук Bear Archery">
+                    </div>
+                    <h3 class="item-title">СПОРТИВНИЙ ЛУК BEAR</h3>
+                    <div class="price-container">
+                        <span class="single-price">16 500 ГРН</span>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-add-cart">У КОРЗИНУ</button>
+                    </div>
+                </div>
+
+                <div class="product-column" data-id="4" data-name="Тактичний арбалет Barnett" data-price="22000">
+                    <div class="round-badge blue-badge">ХІТ<br>ПРОДАЖІВ</div>
+                    <div class="category-name">МЕТАЛЬНА ЗБРОЯ</div>
+                    <div class="card-divider"></div>
+                    <div class="image-box">
+                        <img src="crossbow.jpg" alt="Тактичний арбалет Barnett">
+                    </div>
+                    <h3 class="item-title">АРБАЛЕТ BARNETT</h3>
+                    <div class="price-container">
+                        <span class="single-price">22 000 ГРН</span>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn-add-cart">У КОРЗИНУ</button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-arrow right-arrow" aria-label="Вперед">&#8250;</button>
+        </div>
+    </main>
+
+    <div class="modal-backdrop" id="modal-empty">
+        <div class="modal-box">
+            <p class="modal-msg">Корзина пуста</p>
+            <button class="btn-modal-close close-btn">Зрозуміло</button>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="modal-select-qty">
+        <div class="modal-box">
+            <p class="modal-msg">Вкажіть кількість:</p>
+            <input type="number" id="qty-field" min="1" value="1" class="modal-number-input">
+            <div class="modal-btn-group">
+                <button class="btn-modal-confirm" id="btn-submit-add">Додати до корзини</button>
+                <button class="btn-modal-secondary close-btn">Скасувати</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="modal-added-status">
+        <div class="modal-box">
+            <p class="modal-msg">Товар додано</p>
+            <div class="modal-btn-group">
+                <button class="btn-modal-confirm" id="btn-open-cart">Перейти у корзину</button>
+                <button class="btn-modal-secondary" id="btn-continue-shop">Повернутись до покупок</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
